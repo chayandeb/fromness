@@ -1,276 +1,289 @@
-<!-- FROMNESS CHART — paste this into a Squarespace Code Block -->
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fromness</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  /* All selectors scoped to #fmns to avoid clashing with Squarespace */
-  #fmns {
-    --fmns-ink: #0d0d0d;
-    --fmns-ink-mid: #6b6b5a;
-    --fmns-ink-faint: #b0ad9e;
-    --fmns-rule: #ddd9d0;
-    --fmns-cell: 13px;
-    --fmns-gap: 2px;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 32px 0 0;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink-faint: #9a9488;
+    --rule: #ddd9d0;
+    --cell: 13px;
+    --gap: 2px;
+    --label-w: 148px;
+    --base: 15px;
   }
 
-  #fmns *, #fmns *::before, #fmns *::after {
-    box-sizing: border-box;
+  html, body {
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    font-size: var(--base);
+    font-weight: 300;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  #wrap {
+    max-width: 780px;
+    padding: 8px 0 40px;
+    margin: 0;
   }
 
   /* ── Toggle ── */
-  #fmns .fmns-toggle-wrap {
+  .fmns-toggle {
     display: flex;
     gap: 8px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
 
-  #fmns .fmns-btn {
+  .fmns-btn {
     background: transparent;
-    border: 1.5px solid var(--fmns-ink);
-    padding: 8px 20px;
-    font-family: inherit;
-    font-size: 0.7rem;
+    border: 1.5px solid var(--ink);
+    padding: 9px 22px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.65rem;
     font-weight: 400;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--fmns-ink);
+    color: var(--ink);
     cursor: pointer;
     transition: background 0.16s, color 0.16s;
     line-height: 1;
   }
-  #fmns .fmns-btn.active {
-    background: var(--fmns-ink);
-    color: #f0ece4;
+  .fmns-btn:first-child {
+    /* match label column width minus the gap between buttons */
+    width: calc(var(--label-w) - 8px);
+    flex-shrink: 0;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
   }
-  #fmns .fmns-btn:not(.active):hover {
-    background: rgba(13,13,13,0.06);
-  }
+  .fmns-btn.active { background: var(--ink); color: #f0ece4; }
+  .fmns-btn:not(.active):hover { background: rgba(13,13,13,0.06); }
 
   /* ── Views ── */
-  #fmns .fmns-view { display: none; }
-  #fmns .fmns-view.active { display: block; }
+  .fmns-view { display: none; }
+  .fmns-view.active { display: block; }
 
-  /* ── Rows ── */
-  #fmns .fmns-row {
+  /* ── Row ── */
+  .fmns-row {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 9px;
+    margin-bottom: 12px;
   }
 
-  #fmns .fmns-label {
-    width: 140px;
+  .fmns-label {
+    width: var(--label-w);
     flex-shrink: 0;
     padding-right: 16px;
     text-align: right;
   }
 
-  #fmns .fmns-name-line {
+  .fmns-name-line {
     display: flex;
     justify-content: flex-end;
     align-items: baseline;
     gap: 5px;
-    height: var(--fmns-cell);
+    min-height: var(--cell);
   }
 
-  #fmns .fmns-name {
-    font-family: inherit;
-    font-size: 0.75rem;
-    color: var(--fmns-ink);
+  .fmns-name {
+    font-size: 0.85rem;
     font-weight: 400;
-    letter-spacing: 0.01em;
-    line-height: var(--fmns-cell);
-    margin: 0; padding: 0;
+    color: var(--ink);
+    line-height: 1.2;
+    white-space: nowrap;
   }
-  #fmns .fmns-name.root { font-weight: 600; }
+  .fmns-name.root { font-weight: 400; }
 
-  #fmns .fmns-country {
-    font-family: inherit;
-    font-size: 0.65rem;
-    color: var(--fmns-ink-faint);
+  .fmns-country {
+    font-size: 0.72rem;
+    color: var(--ink-faint);
     font-weight: 300;
-    line-height: var(--fmns-cell);
-    margin: 0; padding: 0;
+    white-space: nowrap;
   }
 
-  #fmns .fmns-dur {
-    font-family: inherit;
-    font-size: 0.65rem;
-    color: var(--fmns-ink-faint);
+  .fmns-dur {
+    font-size: 0.72rem;
+    color: var(--ink-faint);
     font-weight: 300;
     display: block;
-    letter-spacing: 0.02em;
-    margin-top: 2px;
     text-align: right;
+    margin-top: 1px;
   }
 
   /* ── Grid ── */
-  #fmns .fmns-grid {
+  .fmns-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--fmns-gap);
+    gap: var(--gap);
     flex: 1;
     align-content: flex-start;
   }
 
   /* ── Cells ── */
-  #fmns .fmns-cell {
-    width: var(--fmns-cell);
-    height: var(--fmns-cell);
+  .fmns-cell {
+    width: var(--cell);
+    height: var(--cell);
     border-radius: 0;
     flex-shrink: 0;
+    display: block;
     cursor: default;
     transition: opacity 0.12s;
-    display: block;
   }
-  #fmns .fmns-cell:hover { opacity: 0.6; }
-
-  #fmns .fmns-cell.jspur {
+  .fmns-cell:hover { opacity: 0.6; }
+  .fmns-cell.jspur {
     background: transparent !important;
-    border: 1.5px solid var(--fmns-ink);
-    opacity: 0.6;
+    border: 1.5px solid var(--ink);
+    opacity: 0.65;
   }
-  #fmns .fmns-cell.jspur:hover { opacity: 1; }
+  .fmns-cell.jspur:hover { opacity: 1; }
 
   /* ── Divider ── */
-  #fmns .fmns-divider {
+  .fmns-divider {
     height: 1px;
-    background: var(--fmns-rule);
-    margin: 13px 0 13px 140px;
+    background: var(--rule);
+    margin: 14px 0 14px var(--label-w);
     border: none;
   }
 
   /* ── Year ruler ── */
-  #fmns .fmns-ruler {
+  .fmns-ruler {
     margin-bottom: 8px;
     position: relative;
-    height: 14px;
+    height: 16px;
     pointer-events: none;
   }
-  #fmns .fmns-ruler span {
+  .fmns-ruler span {
     position: absolute;
-    font-size: 0.58rem;
+    font-size: 0.6rem;
     letter-spacing: 0.1em;
-    color: var(--fmns-ink-faint);
+    color: var(--ink-faint);
     white-space: nowrap;
     transform: translateX(-50%);
-    font-family: inherit;
     font-weight: 300;
     text-transform: uppercase;
     line-height: 1;
   }
 
-  /* ── Chrono stream ── */
-  #fmns .fmns-stream {
+  /* ── Stream ── */
+  .fmns-stream {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--fmns-gap);
+    gap: var(--gap);
   }
 
   /* ── Legend ── */
-  #fmns .fmns-legend {
+  .fmns-legend {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px 24px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px 24px;
     margin-top: 28px;
     padding-top: 20px;
-    border-top: 1px solid var(--fmns-rule);
+    border-top: 1px solid var(--rule);
   }
 
-  #fmns .fmns-legend-item {
+  .fmns-legend-item {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
   }
 
-  #fmns .fmns-swatch {
+  .fmns-swatch {
     width: 11px;
     height: 11px;
     border-radius: 0;
     flex-shrink: 0;
     display: block;
   }
-  #fmns .fmns-swatch.jspur {
+  .fmns-swatch.jspur {
     background: transparent !important;
-    border: 1.5px solid var(--fmns-ink);
+    border: 1.5px solid var(--ink);
   }
 
-  #fmns .fmns-legend-text {
+  .fmns-legend-text { display: flex; flex-direction: column; }
+
+  .fmns-lname-line {
     display: flex;
-    flex-direction: column;
+    gap: 4px;
+    align-items: baseline;
   }
-  #fmns .fmns-lname {
-    font-family: inherit;
-    font-size: 0.75rem;
-    color: var(--fmns-ink);
+  .fmns-lname {
+    font-size: 0.82rem;
+    color: var(--ink);
     font-weight: 400;
     line-height: 1.3;
-    margin: 0;
   }
-  #fmns .fmns-lcountry {
-    font-family: inherit;
-    font-size: 0.65rem;
-    color: var(--fmns-ink-faint);
+  .fmns-lcountry {
+    font-size: 0.68rem;
+    color: var(--ink-faint);
     font-weight: 300;
     line-height: 1.3;
-    margin: 0;
   }
-  #fmns .fmns-ldur {
-    font-family: inherit;
-    font-size: 0.65rem;
-    color: var(--fmns-ink-faint);
+  .fmns-ldur {
+    font-size: 0.68rem;
+    color: var(--ink-faint);
     font-weight: 300;
     line-height: 1.3;
-    margin: 0;
   }
 
   /* ── Tooltip ── */
   #fmns-tip {
     position: fixed;
-    background: #0d0d0d;
-    color: #f0ece4;
-    font-size: 0.68rem;
+    background: #f5f0ea;
+    color: #0d0d0d;
+    border: 1px solid #ccc0b0;
+    font-size: 0.7rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
     padding: 6px 10px;
     pointer-events: none;
     opacity: 0;
     z-index: 9999;
     white-space: nowrap;
-    line-height: 1.55;
+    line-height: 1.5;
     transition: opacity 0.1s;
-    font-family: inherit;
-    font-weight: 300;
     letter-spacing: 0.02em;
+  }
+  @media (prefers-color-scheme: dark) {
+    #fmns-tip { color: #2a1f14; }
   }
 
   /* ── Mobile ── */
-  @media (max-width: 600px) {
-    #fmns {
-      --fmns-cell: 9px;
-      --fmns-gap: 2px;
+  @media (max-width: 560px) {
+    :root {
+      --cell: 9px;
+      --gap: 2px;
+      --label-w: 96px;
     }
-    #fmns .fmns-label { width: 84px; padding-right: 10px; }
-    #fmns .fmns-divider { margin-left: 84px; }
-    #fmns .fmns-legend { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+    .fmns-name { font-size: 0.72rem; white-space: normal; }
+    .fmns-country { font-size: 0.62rem; }
+    .fmns-dur { font-size: 0.62rem; }
+    .fmns-name-line { flex-wrap: wrap; gap: 2px; }
+    .fmns-legend { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    .fmns-btn { padding: 8px 14px; font-size: 0.6rem; }
   }
 </style>
+</head>
+<body>
 
 <div id="fmns-tip"></div>
 
-<div id="fmns">
-
-  <div class="fmns-toggle-wrap">
+<div id="wrap">
+  <div class="fmns-toggle">
     <button class="fmns-btn active" data-view="grouped">By place</button>
     <button class="fmns-btn" data-view="chrono">Chronological</button>
   </div>
 
   <div class="fmns-view active" id="fmns-grouped"></div>
   <div class="fmns-view"        id="fmns-chrono"></div>
-
 </div>
 
 <script>
-(function() {
-
 const MONTH_DATA = {
   "1984-11":"Rourkela","1984-12":"Rourkela",
   "1985-01":"Rourkela","1985-02":"Rourkela","1985-03":"Rourkela","1985-04":"Rourkela","1985-05":"Jamshedpur","1985-06":"Jamshedpur","1985-07":"Rourkela","1985-08":"Rourkela","1985-09":"Rourkela","1985-10":"Rourkela","1985-11":"Rourkela","1985-12":"Rourkela",
@@ -318,34 +331,32 @@ const MONTH_DATA = {
 };
 
 const CITY_META = {
-  'Rourkela':    { color: '#c8622a', country: 'India' },
-  'Bhubaneswar': { color: '#4a90a4', country: 'India' },
-  'Kolkata':     { color: '#5a7a3a', country: 'India' },
-  'Gandhinagar': { color: '#8b5e9e', country: 'India' },
-  'Bangalore':   { color: '#2a7a6a', country: 'India' },
-  'Mumbai':      { color: '#d4a020', country: 'India' },
-  'Hyderabad':   { color: '#c85878', country: 'India' },
-  'Dubai':       { color: '#1a6896', country: 'UAE'   },
-  'Malmö':       { color: '#7a8c5e', country: 'Sweden'},
+  'Rourkela':    { color: '#a0522d', country: 'India' },   // sienna brown — row 3
+  'Bhubaneswar': { color: '#7a9aaa', country: 'India' },   // slate blue — row 7
+  'Kolkata':     { color: '#4a5e3a', country: 'India' },   // forest green — row 7
+  'Gandhinagar': { color: '#8878a8', country: 'India' },   // muted lavender — row 10
+  'Bangalore':   { color: '#3a7868', country: 'India' },   // muted teal — row 10
+  'Mumbai':      { color: '#c8a840', country: 'India' },   // warm gold — row 4
+  'Hyderabad':   { color: '#904858', country: 'India' },   // burgundy — row 4
+  'Dubai':       { color: '#3a5878', country: 'UAE'   },   // dark slate — row 11
+  'Malmö':       { color: '#6a7848', country: 'Sweden'},   // olive — row 8
   'Jamshedpur':  { color: null, country: 'India', isRoot: true },
 };
 
 const MO = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-// Group by place
 const placeMonths = {};
-Object.entries(MONTH_DATA).forEach(([k, p]) => {
+Object.entries(MONTH_DATA).forEach(([k,p]) => {
   if (!placeMonths[p]) placeMonths[p] = [];
   placeMonths[p].push(k);
 });
-
 const ALL_KEYS = Object.keys(MONTH_DATA).sort();
 
 function fmtDur(n) {
-  const y = Math.floor(n / 12), m = n % 12;
-  if (y === 0) return m + ' mo';
-  if (m === 0) return y + ' yr';
-  return y + ' yr ' + m + ' mo';
+  const y = Math.floor(n/12), m = n%12;
+  if (y===0) return m+' mo';
+  if (m===0) return y+' yr';
+  return y+' yr '+m+' mo';
 }
 
 // Tooltip
@@ -357,11 +368,11 @@ function addTip(el, text) {
 }
 
 function makeCell(key, place) {
-  const [y, m] = key.split('-').map(Number);
+  const [y,m] = key.split('-').map(Number);
   const el = document.createElement('span');
   el.className = 'fmns-cell' + (CITY_META[place]?.isRoot ? ' jspur' : '');
   if (!CITY_META[place]?.isRoot) el.style.background = CITY_META[place]?.color || '#ccc';
-  addTip(el, MO[m-1] + ' ' + y + ' · ' + place);
+  addTip(el, MO[m-1]+' '+y+' · '+place);
   return el;
 }
 
@@ -376,30 +387,28 @@ function makeLabel(place, country, dur, isRoot) {
   lbl.className = 'fmns-label';
   lbl.innerHTML =
     '<div class="fmns-name-line">' +
-      '<span class="fmns-name' + (isRoot ? ' root' : '') + '">' + place + '</span>' +
-      '<span class="fmns-country">' + (country || '') + '</span>' +
+      '<span class="fmns-name'+(isRoot?' root':'')+'">'+place+'</span>' +
+      '<span class="fmns-country">'+country+'</span>' +
     '</div>' +
-    '<span class="fmns-dur">' + dur + '</span>';
+    '<span class="fmns-dur">'+dur+'</span>';
   return lbl;
 }
 
 // ── BY PLACE ──────────────────────────────────────────────────────────────
 const gView = document.getElementById('fmns-grouped');
 
-// Jamshedpur first
-const jKeys = (placeMonths['Jamshedpur'] || []).sort();
+const jKeys = (placeMonths['Jamshedpur']||[]).sort();
 const jRow = document.createElement('div'); jRow.className = 'fmns-row';
-jRow.appendChild(makeLabel('Jamshedpur', 'India', fmtDur(jKeys.length), true));
+jRow.appendChild(makeLabel('Jamshedpur','India',fmtDur(jKeys.length),true));
 const jGrid = document.createElement('div'); jGrid.className = 'fmns-grid';
-jKeys.forEach(k => jGrid.appendChild(makeCell(k, 'Jamshedpur')));
+jKeys.forEach(k => jGrid.appendChild(makeCell(k,'Jamshedpur')));
 jRow.appendChild(jGrid);
 gView.appendChild(jRow);
 gView.appendChild(makeDivider());
 
-// Rest by duration
 const sorted = Object.keys(placeMonths)
   .filter(p => !CITY_META[p]?.isRoot)
-  .sort((a, b) => placeMonths[b].length - placeMonths[a].length);
+  .sort((a,b) => placeMonths[b].length - placeMonths[a].length);
 
 sorted.forEach(place => {
   const keys = placeMonths[place].sort();
@@ -423,24 +432,22 @@ stream.className = 'fmns-stream';
 ALL_KEYS.forEach(k => stream.appendChild(makeCell(k, MONTH_DATA[k])));
 cView.appendChild(stream);
 
-// Legend
 const legend = document.createElement('div');
 legend.className = 'fmns-legend';
-['Jamshedpur', ...sorted].forEach(place => {
+['Jamshedpur',...sorted].forEach(place => {
   const meta = CITY_META[place];
   const item = document.createElement('div'); item.className = 'fmns-legend-item';
   const sw = document.createElement('span');
-  sw.className = 'fmns-swatch' + (meta?.isRoot ? ' jspur' : '');
+  sw.className = 'fmns-swatch'+(meta?.isRoot?' jspur':'');
   if (!meta?.isRoot) sw.style.background = meta?.color;
   const txt = document.createElement('div'); txt.className = 'fmns-legend-text';
   txt.innerHTML =
-    '<div style="display:flex;gap:4px;align-items:baseline;">' +
-      '<span class="fmns-lname">' + place + '</span>' +
-      '<span class="fmns-lcountry">' + (meta?.country || '') + '</span>' +
-    '</div>' +
-    '<span class="fmns-ldur">' + fmtDur(placeMonths[place]?.length || 0) + '</span>';
-  item.appendChild(sw);
-  item.appendChild(txt);
+    '<div class="fmns-lname-line">'+
+      '<span class="fmns-lname">'+place+'</span>'+
+      '<span class="fmns-lcountry">'+(meta?.country||'')+'</span>'+
+    '</div>'+
+    '<span class="fmns-ldur">'+fmtDur(placeMonths[place]?.length||0)+'</span>';
+  item.appendChild(sw); item.appendChild(txt);
   legend.appendChild(item);
 });
 cView.appendChild(legend);
@@ -448,17 +455,16 @@ cView.appendChild(legend);
 // Year ruler
 function buildRuler() {
   ruler.innerHTML = '';
-  const el = document.getElementById('fmns');
-  const style = getComputedStyle(el);
-  const cellPx = parseFloat(style.getPropertyValue('--fmns-cell')) || 13;
-  const gapPx  = parseFloat(style.getPropertyValue('--fmns-gap'))  || 2;
-  const unit   = cellPx + gapPx;
+  const s = getComputedStyle(document.documentElement);
+  const cellPx = parseFloat(s.getPropertyValue('--cell'))||13;
+  const gapPx  = parseFloat(s.getPropertyValue('--gap'))||2;
+  const unit = cellPx + gapPx;
   const startY = parseInt(ALL_KEYS[0]);
-  const endY   = parseInt(ALL_KEYS[ALL_KEYS.length - 1]);
-  for (let y = 1992; y <= endY; y += 4) {
+  const endY   = parseInt(ALL_KEYS[ALL_KEYS.length-1]);
+  for (let y=1992; y<=endY; y+=4) {
     const span = document.createElement('span');
     span.textContent = y;
-    span.style.left = ((y - startY) * 12 * unit) + 'px';
+    span.style.left = ((y-startY)*12*unit)+'px';
     ruler.appendChild(span);
   }
 }
@@ -471,9 +477,22 @@ document.querySelectorAll('.fmns-btn').forEach(btn => {
     document.querySelectorAll('.fmns-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     document.querySelectorAll('.fmns-view').forEach(v => v.classList.remove('active'));
-    document.getElementById('fmns-' + btn.dataset.view).classList.add('active');
+    document.getElementById('fmns-'+btn.dataset.view).classList.add('active');
   });
 });
-
-})(); // end IIFE — keeps all variables out of global scope
 </script>
+<script>
+// Report actual content height to parent so iframe has no whitespace
+function reportHeight() {
+  const h = document.getElementById('wrap').getBoundingClientRect().bottom + 16;
+  window.parent.postMessage(Math.ceil(h), '*');
+}
+window.addEventListener('load', reportHeight);
+window.addEventListener('resize', reportHeight);
+// Also report after toggle clicks since height changes between views
+document.querySelectorAll('.fmns-btn').forEach(btn => {
+  btn.addEventListener('click', () => setTimeout(reportHeight, 50));
+});
+</script>
+</body>
+</html>
