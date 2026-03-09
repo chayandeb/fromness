@@ -25,6 +25,8 @@
     font-weight: 300;
     color: var(--ink);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   #wrap {
@@ -55,7 +57,6 @@
     line-height: 1;
   }
   .fmns-btn:first-child {
-    /* match label column width minus the gap between buttons */
     width: calc(var(--label-w) - 8px);
     flex-shrink: 0;
     padding-left: 0;
@@ -68,6 +69,8 @@
   /* ── Views ── */
   .fmns-view { display: none; }
   .fmns-view.active { display: block; }
+  #fmns-grouped.active { padding-top: 24px; }
+  #fmns-chrono.active  { padding-top: 8px; }
 
   /* ── Row ── */
   .fmns-row {
@@ -153,7 +156,7 @@
 
   /* ── Year ruler ── */
   .fmns-ruler {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     position: relative;
     height: 16px;
     pointer-events: none;
@@ -482,16 +485,18 @@ document.querySelectorAll('.fmns-btn').forEach(btn => {
 });
 </script>
 <script>
-// Report actual content height to parent so iframe has no whitespace
 function reportHeight() {
-  const h = document.getElementById('wrap').getBoundingClientRect().bottom + 16;
-  window.parent.postMessage(Math.ceil(h), '*');
+  const h = document.body.scrollHeight;
+  window.parent.postMessage(h, '*');
 }
-window.addEventListener('load', reportHeight);
+// Fire immediately, then repeatedly for 3 seconds to catch font load / layout settle
+reportHeight();
+[100, 300, 600, 1000, 2000, 3000].forEach(ms => setTimeout(reportHeight, ms));
 window.addEventListener('resize', reportHeight);
-// Also report after toggle clicks since height changes between views
 document.querySelectorAll('.fmns-btn').forEach(btn => {
-  btn.addEventListener('click', () => setTimeout(reportHeight, 50));
+  btn.addEventListener('click', () => {
+    [50, 200, 500].forEach(ms => setTimeout(reportHeight, ms));
+  });
 });
 </script>
 </body>
